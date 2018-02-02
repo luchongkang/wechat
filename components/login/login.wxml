@@ -1,0 +1,15 @@
+<template name="login">
+  <view class="register {{ setp[0] === 2 ? '' : 'none'}}">
+    <view class="reg-top">
+      <i bindtap="back"></i>
+      <view>登录</view>
+      <view bindtap="debao">注册</view>
+    </view>
+    <view class="welcome">德堡德州扑克账户</view>
+    <view class="section">
+      <input class="input" placeholder="账号" bindinput="inputUser" />
+      <input class="input" password  placeholder="密码" bindinput="inputPwd"/>
+    </view>
+    <view class='btnReg' bindtap="doLogin">登陆</view>
+  </view>
+</template>

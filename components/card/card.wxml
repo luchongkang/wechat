@@ -1,0 +1,13 @@
+<template name="card">
+	<view bindtap="selBox" data-pid="{{selectCards['card'+item] ? selectCards['card'+item].pid : ''}}" data-id="card{{item}}" data-lid="{{item}}"   
+		class="flex-item {{selectCards['card'+item] ? 'car' : ''}}  {{sel === item ? 'selected' : ''}}">
+       <block wx:if="{{selectCards['card'+item]}}">
+        <span class="icon {{color[selectCards['card'+item].c]}}">{{shape[selectCards['card'+item].c]}}</span>
+        <span class="number  {{color[selectCards['card'+item].c]}} {{selectCards['card'+item].id == 4 ? 'small' : ''}}">
+        {{cards[selectCards['card'+item].id]}}</span>
+        </block>
+        <block wx:else>
+        	<view class="unknown">?</view>
+        </block>
+    </view>
+</template>

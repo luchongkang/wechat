@@ -1,0 +1,16 @@
+<template name="pay">
+  <view class="register {{ setp[0] === 3 ? '' : 'none'}}">
+    <view class="reg-top">
+      <i bindtap="back"></i>
+      <view>购买</view>
+    </view>
+    <view class="welcome" style="color:#35C9AE;margin:0;margin-top:15px;">德堡德州扑克胜率计算器</view>
+    <view class="welcome" style="color:#35C9AE;margin:0;margin-bottom:15px;">永久使用权</view>
+    <view class="selectPay">
+      微信支付
+      <icon type="success" size="25" color="green" style="float:right;padding-right:20px;"/>
+    </view>
+    <view style="font-size:20px;margin-bottom:10px;">实际支付：<span style="color:#FF2A00">30元</span></view>
+    <view class='btnReg' bindtap="paying">立即支付</view>
+  </view>
+</template>

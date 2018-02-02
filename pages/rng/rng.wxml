@@ -1,0 +1,59 @@
+<view class="main" style="height:{{height}}px">
+  <view class=" title">
+      <span>手牌范围：P{{player}}</span>
+      <view bindtap="reset">重置</view>
+  </view>
+  <view class="desc">
+    {{desc}}
+    <span>{{rate}}%</span>
+  </view>
+  <view class="card">
+    <view bindtap="chose" data-pid="{{index}}" wx:for="{{ranks.pfIndexToPocket}}" class="cards {{ranks.color[item.s === 1 ? 3 : item.c]}}" wx:key="index">
+      {{item.key}}
+      <view class="{{item.color == 4 ? 'gray' : ''}}"></view>
+    </view>
+  </view>
+  <view class="slider">
+    <slider bindchanging="change" color="#313A4D" step="0.59" value="{{val}}"  show-value/>
+    <span>%</span>
+  </view>
+  <view class="arrow">
+    <view class="arrow-up" bindtap="up"></view>
+    <view bindtap="del" class="delete">删除</view>
+  </view>
+  <view class="arrow">
+    <view class="arrow-left" bindtap="left"></view>
+    <view class="arrow-down" bindtap="down"></view>
+    <view class="arrow-right" bindtap="right"></view>
+    <view class="add" bindtap="add">添加</view>
+  </view>
+  <view class="bottom">
+    <view bindtap="back"><navigator open-type="navigateBack" url="/pages/home/home" hover-class="navigator-hover" >取消</navigator></view>
+    <view bindtap="submit">确定</view>
+  </view>
+</view>
+
+
+
+
+<!-- <view class="section section_gap">
+  <text class="section__title">设置step</text>
+  <view class="body-view">
+    <slider bindchange="slider2change" step="5"/>
+  </view>
+</view>
+
+
+<view class="section section_gap">
+  <text class="section__title">显示当前value</text>
+  <view class="body-view">
+    <slider bindchange="slider3change" show-value/>
+  </view>
+</view>
+
+<view class="section section_gap">
+  <text class="section__title">设置最小/最大值</text>
+  <view class="body-view">
+    <slider bindchange="slider4change" min="50" max="200" show-value/>
+  </view>
+</view> -->

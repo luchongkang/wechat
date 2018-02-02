@@ -1,0 +1,107 @@
+<import src="../../components/card/card.wxml" />
+<import src="../../components/login/login.wxml" />
+<import src="../../components/pay.wxml" />
+<import src="../../components/dead.wxml" />
+<view class="loading {{loading ? '' : 'none'}}"></view>
+<view class="modal {{using ? 'none' : ''}}">
+  <template  is="login" data="{{...sel,setp,account}}"/>
+  <template  is="pay" data="{{...sel,setp}}"/>
+  <template  is="dead" data="{{ ...shap,deadCard,shape,shap,setp,cards,selDead,color }}"/>
+  <view class="register {{ setp[0] === 1 ? '' : 'none'}}">
+    <view class="reg-top">
+      <i bindtap="back"></i>
+      <view>欢迎注册</view>
+      <view bindtap="login">登陆</view>
+    </view>
+    <view class="welcome">欢迎注册德堡账号</view>
+    <view class="section">
+      <input class="input" placeholder="账号" bindinput="inputAccount" />
+      <input class="input"   placeholder="密码(6-15个字符串)" bindinput="inputPassword" />
+      <input class="input" type="number" placeholder="手机号码" bindinput="inputMobile" />
+    </view>
+    <view class="sendCode">
+      <input class="input code" type="number" bindinput="inputCode" placeholder="验证码"/>
+      <view class="send" bindtap="send" >{{code}}</view>
+    </view>
+    <view class='btnReg' bindtap="register">立即注册</view>
+    <view class='regLast'>·注册代表您同意《德堡扑克服务条款》</view>
+  </view>
+  <view class="tip {{ setp[0] === 0 ? '' : 'none'}}">
+    <view>欢迎试用德堡德州扑克胜率计算器</view>
+    <view>恭喜您获得</view>
+    <view>30天免费试用权</view>
+    <view class="useforever">开通永久使用权</view>
+    <view class="debao" bindtap="debao"><view></view> 登陆／注册德堡账户(免费)</view>
+    <view class="pay" bindtap="pay">付费开通(30元)</view>
+  </view>
+  <view class="startUse {{ setp[0] === 0 ? '' : 'none'}}" bindtap="using">开始试用</view>
+</view>
+<view class="flex">
+<view class="login fa fa-user " bindtap="loginB"> {{nickName}} </view>
+<view class="forever {{isLogin ? 'none' : ''}}">可以试用<span>30</span>天 <span bindtap="payB">永久使用</span></view>
+</view>
+
+
+<view class="flex row">
+  <view class="title">公共牌</view>
+  <view class="flex column">
+    <view class="flex-wrp">
+       <template wx:for="{{[1,2,3]}}" wx:key="index"  is="card" data="{{...selectCards,cards,sel,shape,color,item}}" />
+    </view>
+  </view>
+  <view class="flex column en">
+    <view class="flex-wrp">
+      <template wx:for="{{[4,5]}}" wx:key="index"  is="card" data="{{...selectCards,cards,sel,shape,color,item}}" />
+    </view>
+  </view>
+</view>
+<view class="">
+  <scroll-view scroll-y class="scroll" scroll-top="{{scrollHeight}}">
+    <view class='flex player' wx:for="{{players}}" wx:key="index">
+      <view style="width: 10%;">P{{index+1}}</view>
+      <block wx:if="{{!rngDesc['P'+index]}}">
+        <template wx:for="{{[item+1,item+2]}}" wx:key="index" is="card" data="{{...selectCards,cards,sel,shape,color,item}}" />
+      </block>
+      <block wx:else>
+        <view data-sel="{{rngDesc['P'+index].sel}}" class="rng {{sel === (index + 24) ? 'selrng selected' : ''}}" data-lid="{{index + 24}}"  bindtap="selBox">
+          {{rngDesc['P'+index].desc}}
+        </view>
+      </block>
+      
+      <view class="count">
+        <p class="lose">{{!rate[index] ? '--' : rate[index][0]}}%</p>
+        <p class="win">WIN: {{!rate[index] ? '--' : rate[index][1]}}%</p>
+        <p class="tie">Tie: {{!rate[index] ? '--' : rate[index][2]}}%</p>
+      </view>
+    </view>
+   <!--  <view class="btnAdd {{total === 23 ? 'none' : ''}}" bindtap="add">+</view> -->
+    <view class="flex btnAdd">
+        <view class="btnAdd" bindtap="add">+</view>
+        <view bindtap="reduce" style="background: #35C9AE;color:red;">-</view>
+      </view>
+  </scroll-view>
+  <view class="flex-wrp card">
+    <view bindtap='selectCard' data-d="{{item.d}}" data-index="{{index}}" data-id="{{item.id}}" data-pid="{{item.pid}}" class="flex-item child {{color[item.c]}} {{item.s === 1 ? 'hide' : ''}} {{item.d === 1 ? 'disable' : ''}}" data-c="{{item.c}}" data-s="{{item.s}}" wx:for="{{card}}" wx:key="item.id">
+        <span class="number {{item.id == 4 ? 'small' : ''}}">{{cards[item.id]}}</span>
+        <!-- <span class="icon">{{shape[item.c]}}</span> -->
+    </view>
+    <view class="btnClear" bindtap="clear">清 除</view>
+  </view>
+  <view class="flex-wrp num">
+    <view  class="poker {{index == choseCard ? 'choseCard' : ''}}" wx:for="{{cards}}" data-id="{{index}}" wx:key="index" bindtap="chosePoker">{{cards[index]}}</view>
+    <view  class="poker"  bindtap="rng">Rng</view>
+  </view>
+  <view class="flex-wrp die">
+    <view style="margin-left:10px">Dead Cards:<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
+    <span bindtap="showDead" class="dieSpan">+</span>
+  </view>
+  <view class="flex-wrp bottom">
+    <view class="btn {{model == 1 ? 'chose' : ''}}" data-model="1" bindtap="chose">标准德州</view>
+    <view class="btn {{model == 0 ? 'chose' : ''}}" data-model="0" bindtap="chose">短牌花大</view>
+    <view class="btn {{model == 2 ? 'chose' : ''}}" data-model="2" bindtap="chose">短牌葫芦大</view> 
+    <view class="reset" bindtap="reset">重置</view>
+  </view>
+  <view class="flex-wrp bottom">
+    <view class="qcount" bindtap="qcount">计算</view>
+  </view>
+</view>

@@ -1,0 +1,148 @@
+/* 这里的样式只应用于这个自定义组件 */
+.main {
+  background: #0F131A;
+  color: #FFF;
+}
+.flex {
+  display: flex;
+}
+.title {
+  padding:10px;
+  text-align: center;
+}
+.title view {
+  color: #35C9AE;
+  display: flex;
+  float: right;
+}
+.desc {
+  position: relative;
+  color: #35C9AE;
+  margin-left: 10px;
+  height: 52px;
+}
+.desc span {
+  position: absolute;
+  color: #FFD900;
+  right:10px;
+  top:30px;
+}
+.blue {
+  background: #ADD9F0 !important;
+}
+.blue1 {
+  background: #8DAEF0 !important;
+}
+.gray {
+  background-color: rgba(0,0,0,0.3) !important;
+  position: absolute !important;
+  left: 0;right: 0;top: 0;bottom: 0;
+  border: 0;
+}
+.yellow {
+  background: #FFD900 !important;
+}
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  clear: right;
+  padding: 10px 5px;
+}
+.cards {
+  position: relative;
+  font-size: 12px;
+  width: 26px;
+  text-align: center;
+  color: #0F131A;
+  background: #FFF;
+  border: 1px solid #0F131A;
+}
+.card view{
+  
+}
+.slider {
+  padding: 5px 0;
+  position: relative;
+  
+}
+.slider span{
+  position: absolute;
+  right: 0;
+  top: 12px;
+  color: #888268 !important;
+}
+.fa {
+  font-family: "fa" !important;
+}
+.arrow {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom:10px;
+}
+.arrow-up,.arrow-right,.arrow-down,.arrow-left {
+  background: #202735;
+  width: 75px;
+  height: 48px;
+  position: relative;
+  margin: 0 5px;
+  color: #818899;
+}
+.arrow-up {
+    margin-left: 110px;
+}
+.arrow-up::before,.arrow-right::before,.arrow-down::before,.arrow-left::before{
+  font-family: "fa" !important;
+  position: absolute;
+  left: 28px;
+  top: 10px;
+  font-size: 1.5em;
+}
+.arrow-up::before {
+  content: "\f176";
+}
+.delete,.add {
+  color: #7A95CB;
+  background: #202735;
+  padding: 10px 20px;
+  position: absolute;
+  right: 10px;
+  border: 1px solid #39465F;
+}
+.add {
+  color: #35C9AE;
+}
+.arrow-left {
+  margin-left:25px; 
+}
+.arrow-left::before{
+  content: "\f177";
+}
+.arrow-down::before{
+  content: "\f175";
+}
+.arrow-right::before{
+  content: "\f178";
+}
+.bottom{
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  bottom: 0;
+}
+.bottom view{
+  padding:.6em 0;
+  width:50%;
+  text-align:center;
+}
+.bottom view:nth-child(1){
+  background: #313A4D;
+}
+.bottom view:nth-child(2){
+  background: #35C9AE;
+}
+@media only screen and (min-width: 411px) {
+  .cards {
+    width:28px;
+  }
+}
