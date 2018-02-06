@@ -122,7 +122,7 @@ page {
 }
 .child{
   background: #FFF;
-  height:38px !important;
+  height:60px !important;
   margin-right: 15px;
 }
 @media only screen and (max-width: 375px) {
@@ -285,7 +285,7 @@ page {
   margin: 0 20px;
   color: #000;
   border-radius: 20px;
-  height: 58%;
+  height: 68%;
 }
 .tip view:nth-child(1){
   text-align:center;
@@ -301,7 +301,7 @@ page {
   font-weight: 900;
   font-size: 24px;
   color: #E98900;
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
 }
 .useforever {
  font-weight: 700;
@@ -314,7 +314,7 @@ page {
   width:92px;
   content: "";
   background: #BCC1CC;
-  bottom: 177px;
+  bottom: 32px;
 }
 .useforever::after {
   right: 17px;
@@ -376,21 +376,20 @@ page {
   color: #333;
   border-radius: 8px;
   padding: 15px 5px;
-  margin: 20px 50px;
+  margin: 20px 50px 0 50px;
   text-align: center;
 }
 @media only screen and (max-width: 375px) {
   .useforever::before,.useforever::after {
     width: 78px;
-    bottom:175px;
+    bottom:32px;
   }
   .tip {
-    height: 64%;
+    height: 72%;
   }
 }
 @media only screen and (max-width: 360px) { 
   .useforever::before,.useforever::after {
-    bottom:155px;
     width: 60px;
   }
   .useforever::before{
@@ -403,19 +402,24 @@ page {
     font-size:16px;
   }
   .tip {
-    height: 64%;
+    height: 323px;
+  }
+  .btn{
+    width:70px;
+  }
+  .flex-item{
+    width:38px;
   }
 }
 @media only screen and (max-width: 320px) { 
   .useforever::before,.useforever::after {
-    bottom:90px;
-    width: 62px;
+    width: 52px;
   }
   .pay,.debao {
     font-size:16px;
   }
   .tip {
-    height: 68%;
+    height: 72%;
   }
   .title {
     padding:12px 0 0 10px;
@@ -427,7 +431,16 @@ page {
     padding-left: 30px;
   }
   .reset {
-    margin:15px 0 0 10px;
+    margin:8px 0 0 10px;
+  }
+  .btn{
+    width:70px;
+    padding:2px;
+    font-size:14px;
+    margin:5px
+  }
+  .card view:first-child{
+    margin-left:20px;
   }
 }
 .register {
@@ -490,6 +503,7 @@ page {
   text-align: center;
   background: #35C9AE;
   color: #FFF;
+  
 }
 .regLast{
   color: #808080;
@@ -584,4 +598,11 @@ page {
   padding-left: 20px;
   padding-top:20px;
   color: red;
+}
+.text {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  color: #757580;
+  display: block;
 }

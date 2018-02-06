@@ -61,7 +61,7 @@ Page({
     total: 9,
     rate: [],
     loading: false,
-    using: true,
+    using: false,
     setp: [0, 0],
     code: '发送',
     isSend: true,
@@ -71,15 +71,20 @@ Page({
     selDead: [],
     signkey:'003CW13v1JI94d0sFL3v1kYL2v1CW133',
     isLogin: false,
-    nickName: '登陆',
+    nickName: '登录',
     lastTapDiffTime: 0,
-    status: 0,
+    status: 1,
     account: {
       user: '',
       pwd: '',
       code: '',
       mobile: ''
-    }
+    },
+    isVIP: false,
+    tempName: '',
+    open: true,
+    days: 30,
+    test: ''
   },
   paying(){
     var openID = wx.getStorageSync('openID')
@@ -97,12 +102,15 @@ Page({
     let s = encrypt.md5(openID + this.data.signkey)
     let data = { method: 'Counter/pay' ,
       'params["p"]': openID,
-      'params["s"]': s
+      'params["s"]': s,
+      'params["n"]': this.data.tempName
     }
+    let that = this
     Debao.req(data, (res) => {
       wx.hideLoading();
       this.setData({loading: false});
-      if(res.data.status === 1){
+      console.log(res)
+      if(res.data.status == 0){
         wx.showModal({
           title: '错误',
           content: res.data.msg
@@ -117,20 +125,18 @@ Page({
          'paySign': res.data.sign,
          'appId': res.data.appid,
          'success':function(res){
-            console.log('success',res)
+            wx.showToast({
+              title: '支付成功',
+              icon: 'success',
+              duration: 2000
+            })
+            that.setData({isLogin : true, status: 1,nickName: that.data.tempName ,using: true})
+            that.back()
          },
          'fail':function(res){
             console.log('fial',res)
          }
       })
-      // wx.showToast({
-      //   title: '登陆成功',
-      //   icon: 'success',
-      //   duration: 2000
-      // })
-      // console.log(res.data)
-      // this.setData({isLogin :true, nickName :res.data.name})
-      // this.back()
     })
   },
   selBoxDead(){
@@ -279,23 +285,30 @@ Page({
             content: res.data.msg
           })
         }else {
-          wx.showToast({
-            title: '注册成功',
-            icon: 'success',
-            duration: 2000
-          })
-          this.login()
+          // wx.showToast({
+          //   title: '注册成功',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
+          this.setData({setp: [6,0]})
+          // this.login()
         }
       }) 
   },
   doLogin() {
-    console.log()
-    // wx.showModal({
-    //     title: '提示',
-    //     content: '暂时未开放'
-    // })
     let u = this.data.userName
     let p = this.data.userPwd
+    if(p.length < 6){
+      wx.showModal({
+        title: '提示',
+        content: '请输入密码'
+      })
+      return false
+    }
+    this.setData({loading: true});
+    wx.showLoading({
+      title: '登录中...',
+    })
     let s = encrypt.md5(u + p +this.data.signkey)
     let data = { method: 'Counter/login' ,
               'params["u"]': u,
@@ -303,6 +316,8 @@ Page({
               'params["s"]': s
             }
     Debao.req(data, (res) => {
+      wx.hideLoading();
+      this.setData({loading: false});
       if(res.data.status === 0){
         wx.showModal({
           title: '错误',
@@ -311,12 +326,12 @@ Page({
         return false
       }
       wx.showToast({
-        title: '登陆成功',
+        title: '登录成功',
         icon: 'success',
         duration: 2000
       })
-      console.log(res.data)
-      this.setData({isLogin :true, nickName :res.data.name})
+      wx.setStorage({key:"userInfo",data :res.data.name })
+      this.setData({isLogin :true, nickName :res.data.name, status: 1,using :true})
       this.back()
     })
   },
@@ -340,7 +355,6 @@ Page({
     this.data.selDead.map(function(e) {
         temp.push(e.pid)
     })
-    console.log(temp)
     let poker = this.data.pokers.map((e) => {
       if(temp.includes(e.pid) ){
         e.d = 1
@@ -456,35 +470,50 @@ Page({
         }
       }) 
   },
-  payB: function(){
-    this.setData({setp: [3, 1], using: false})
+  payB: function(e){
+    this.setData({setp: [3, e.currentTarget.dataset.fid], using: false})
   },
-  loginB: function(){
+  loginB: function(e){
     if(this.data.isLogin){
       return false
     }
-    this.setData({setp: [2, 1], using: false})
+    this.setData({setp: [2, e.currentTarget.dataset.fid], using: false})
   },
-  pay: function(){
-    this.setData({setp: [3, 0]})
+  loginC(e){
+    if(this.data.isLogin){
+      return false
+    }
+    this.setData({setp: [2, e.currentTarget.dataset.fid], using: false})
+  },
+  pay: function(e){
+    this.setData({setp: [3, e.currentTarget.dataset.fid]})
   },
   login: function(){
-    this.setData({setp: [2, 0]})
+    this.setData({setp: [2 ,this.data.setp[1] ]})
   },
-  debao: function(){
-    this.setData({setp: [1, 0]})
+  debao: function(e){
+    let s = this.data.setp[1]
+    if(e.currentTarget.dataset.fid){
+      s = e.currentTarget.dataset.fid
+    }
+    this.setData({setp: [1, s]})
   },
   back: function() {
-    if (this.data.setp[1] !== 0) {
+    let s1 = parseInt(this.data.setp[1])
+    console.log(this.data.setp)
+    let s = this.data.setp[0]
+    if ( s1 == 3) {
       this.setData({using: true})
-    } else {
-      this.setData({setp: [0, 0]})
+    }else {
+      this.setData({setp: [s1, 0]})
     }
   },
   using: function() {
     var ranks = this.data.ranks
-    // ranks.test = 100
     this.setData({ranks : ranks,using: true})
+  },
+  usingB: function() {
+    this.setData({using: false, open: false,setp: [0,0]})
   },
   qcount: function () {
     if(this.data.status === 0){
@@ -495,13 +524,9 @@ Page({
       return false
     }
     var dead = this.data.selDead
-    // return false
     var data = this.data.selectCards.selectCards;
     var rngDesc = this.data.rngDesc;
-    // this.setData({rate: [{"Id":0,"Win":100,"Tie":0,"NLose":100},{"Id":1,"Win":0,"Tie":0,"NLose":0}]});
     var isOk = true;
-    // console.log(data)
-    // return false
     for (var i = 6; i <= this.data.total; i++) {
       if(!data.hasOwnProperty('card'+i)){
         isOk = false
@@ -531,7 +556,6 @@ Page({
             'params["de"]':  encodeURI(JSON.stringify(dead))
       },
       method: 'POST',
-      // data: {data: data,type: this.data.model, total: this.data.total},
       success: function(res) {
         wx.hideLoading();
         that.setData({loading: false});
@@ -775,6 +799,16 @@ Page({
     this.setData({lastTapDiffTime: curTime})
   },
   onLoad: function() {
+    let userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      this.setData({isLogin :true, nickName :userInfo, status: 1,using :true})
+      return false 
+    }
+    wx.getUserInfo({
+      success: (res) => {
+        this.setData({ tempName :res.userInfo.nickName })
+      }
+    })
     let openID = wx.getStorageSync('openID')
     let signkey = this.data.signkey
     if(openID){
@@ -785,10 +819,17 @@ Page({
       }
       Debao.req(data, (res) => {
         if(res.data.status === 0){
-          wx.showModal({
-            title: '提示',
-            content: '您的免费使用权限已经到期已经到期'
+          // 免费使用到期
+          this.setData({setp: [5, 0], using: false})
+        }else if (res.data.status === 2){
+          wx.getUserInfo({
+            success: (res) => {
+              this.setData({nickName: res.userInfo.nickName}) 
+            }
           })
+          this.setData({isLogin : true, using: true})
+        }else{
+          this.setData({using: false, days: res.data.days})
         }
         this.setData({status :res.data.status})
       }) 

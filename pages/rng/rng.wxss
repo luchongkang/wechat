@@ -141,6 +141,14 @@
 .bottom view:nth-child(2){
   background: #35C9AE;
 }
+@media only screen and (min-width: 360px) {
+  .cards {
+    width:24px;
+  }
+  .card {
+    padding:10px 10px;
+  }
+}
 @media only screen and (min-width: 411px) {
   .cards {
     width:28px;

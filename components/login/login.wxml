@@ -8,8 +8,8 @@
     <view class="welcome">德堡德州扑克账户</view>
     <view class="section">
       <input class="input" placeholder="账号" bindinput="inputUser" />
-      <input class="input" password  placeholder="密码" bindinput="inputPwd"/>
+      <input class="input" password style="margin-top:20px"  placeholder="密码" bindinput="inputPwd"/>
     </view>
-    <view class='btnReg' bindtap="doLogin">登陆</view>
+    <view class='btnReg' bindtap="doLogin" style="margin-top:60px">登录</view>
   </view>
 </template>

@@ -11,7 +11,7 @@
     <view class="reg-top">
       <i bindtap="back"></i>
       <view>欢迎注册</view>
-      <view bindtap="login">登陆</view>
+      <view bindtap="login">登录</view>
     </view>
     <view class="welcome">欢迎注册德堡账号</view>
     <view class="section">
@@ -24,21 +24,48 @@
       <view class="send" bindtap="send" >{{code}}</view>
     </view>
     <view class='btnReg' bindtap="register">立即注册</view>
-    <view class='regLast'>·注册代表您同意《德堡扑克服务条款》</view>
+    <view class='regLast'>·注册代表您同意 <navigator style="display:inline;color:#82a1df" url="/pages/logs/logs" hover-class="navigator-hover">《德堡扑克服务条款》</navigator></view>
+  </view>
+  <view class="register {{ setp[0] === 6 ? '' : 'none'}}">
+    <view class="selectPay" style="border:none;text-align:center;margin-bottom:1px;margin-top:4em;">
+      注册成功
+      <icon type="success" size="25" color="green" style=""/>
+    </view>
+    <view style="font-size:20px;text-align:center;margin-bottom:6em;">请使用账户登录</view>
+    <view class='btnReg' bindtap="loginC" data-fid="3">前往登录</view>
+  </view>
+  <view class="tip {{ setp[0] === 5 ? '' : 'none'}}">
+    <view></view>
+    <view style="color:red">您的30天免费使用</view>
+    <view style="color:red">已到期</view>
+    <view style="position: relative;">
+      <view class="useforever">开通永久使用权</view>
+    </view>
+    <view class="debao" bindtap="debao" data-fid="5"><view></view> 登录／注册德堡账户(免费)</view>
+    <view class="pay" bindtap="pay"  data-fid="5">付费开通(30元)</view>
   </view>
   <view class="tip {{ setp[0] === 0 ? '' : 'none'}}">
-    <view>欢迎试用德堡德州扑克胜率计算器</view>
-    <view>恭喜您获得</view>
-    <view>30天免费试用权</view>
-    <view class="useforever">开通永久使用权</view>
-    <view class="debao" bindtap="debao"><view></view> 登陆／注册德堡账户(免费)</view>
-    <view class="pay" bindtap="pay">付费开通(30元)</view>
+    <block wx:if="{{open}}">
+      <view>欢迎试用德堡德州扑克胜率计算器</view>
+      <view>恭喜您获得</view>
+      <view>30天免费试用权</view>
+      </block>
+      <block wx:else>
+        <view></view>
+        <view>您还有</view>
+        <view>{{days}}天免费使用权</view>
+      </block>
+    <view style="position: relative;">
+      <view class="useforever">开通永久使用权</view>
+    </view>
+    <view class="debao" bindtap="debao" data-fid="0"><view></view> 登录／注册德堡账户(免费)</view>
+    <view class="pay" bindtap="pay" data-fid="0">付费开通(30元)</view>
   </view>
-  <view class="startUse {{ setp[0] === 0 ? '' : 'none'}}" bindtap="using">开始试用</view>
+  <view class="startUse {{ setp[0] === 0 ? '' : 'none'}}" bindtap="using">{{open ? '开始试用' : '确定'}}</view>
 </view>
 <view class="flex">
-<view class="login fa fa-user " bindtap="loginB"> {{nickName}} </view>
-<view class="forever {{isLogin ? 'none' : ''}}">可以试用<span>30</span>天 <span bindtap="payB">永久使用</span></view>
+<view class="login fa fa-user " bindtap="loginB" data-fid="3"> {{nickName}} </view>
+<view class="forever {{isLogin ? 'none' : ''}}">可以试用<span>{{days}}</span>天 <span data-fid="3" bindtap="usingB">永久使用</span></view>
 </view>
 
 
@@ -83,7 +110,7 @@
   <view class="flex-wrp card">
     <view bindtap='selectCard' data-d="{{item.d}}" data-index="{{index}}" data-id="{{item.id}}" data-pid="{{item.pid}}" class="flex-item child {{color[item.c]}} {{item.s === 1 ? 'hide' : ''}} {{item.d === 1 ? 'disable' : ''}}" data-c="{{item.c}}" data-s="{{item.s}}" wx:for="{{card}}" wx:key="item.id">
         <span class="number {{item.id == 4 ? 'small' : ''}}">{{cards[item.id]}}</span>
-        <!-- <span class="icon">{{shape[item.c]}}</span> -->
+        <span class="icon">{{shape[item.c]}}</span>
     </view>
     <view class="btnClear" bindtap="clear">清 除</view>
   </view>
@@ -103,5 +130,8 @@
   </view>
   <view class="flex-wrp bottom">
     <view class="qcount" bindtap="qcount">计算</view>
+  </view>
+  <view class="flex-wrp bottom text">
+    玩德州就在德堡{{test}}
   </view>
 </view>
