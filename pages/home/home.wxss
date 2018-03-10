@@ -78,8 +78,8 @@ page {
     font-size:14px;
 }
 .scroll {
+  position: relative;
   background-color:#0F131A;
-  height: 200px;
   color: #FFF;
 }
 .player {
@@ -102,19 +102,20 @@ page {
   font-weight: 900;
 }
 .btnAdd view{
-  text-align:center;
-  width:50%;
+  width:100%;
 }
 .card {
-  margin-top: 10px;
+  height:65px;
   flex-wrap: wrap;
+  padding-left:38px;
 }
 .card view:first-child {
-  margin-left:20px;
+  margin-left:0px;
 }
 .btn {
-    width: 83px;
-    margin:5px;
+    width: 33%;
+    margin-top: 10px;
+    margin:5px 10px;
     padding:5px;
     border:2px solid #3f4d69;
     font-size:14px;
@@ -122,12 +123,13 @@ page {
 }
 .child{
   background: #FFF;
-  height:60px !important;
+  height:75rpx !important;
   margin-right: 15px;
+  position: relative;
 }
 @media only screen and (max-width: 375px) {
   .card view:first-child {
-    margin-left:20px;
+    margin-left:0px;
   }
 }
 @media only screen and (max-width: 320px) {
@@ -147,7 +149,7 @@ page {
 }
 @media only screen and (min-width: 411px) {
   .card view:first-child {
-    margin-left:40px;
+    margin-left:0px;
   }
   .car{
     width:45px;
@@ -160,6 +162,8 @@ page {
   }
 }
 .btnClear {
+  position:absolute;
+  right:10px;
   margin:18px;
   color:#1db571;
 }
@@ -179,9 +183,12 @@ page {
     background: #202735;
 }
 .reset {
-    color: #1db571;
-    margin:12px 0 0 10px;
+    background: #42415A;
+    padding:5px 0;
+    margin-top:5px;
     font-size:16px;
+    width: 40%;
+    text-align: center;
 }
 .choseCard {
   background: #5d729c;
@@ -198,10 +205,16 @@ page {
   box-shadow:0 0 18px rgba(29, 181, 113, 1);
 }
 .hide span{
-  display:none;
+  display:none !important;
+}
+.hide image{
+  display:none !important;
+}
+.hide {
+  background:#202735; 
 }
 .none {
-    display:none;
+    display:none !important;
 }
 .loading {
   position: fixed;
@@ -239,13 +252,12 @@ page {
   box-sizing: border-box;
 }
 .login {
+  position: absolute;
   color: #35C9AE;
-  margin: 10px 30px 1px 10px;
+  margin: 5px 30px 5px 10px;
 }
 .forever {
-  position: absolute;
-  top: 10px;
-  right: 5px;
+  margin:8px auto;
   font-size: 16px;
 }
 .forever span:nth-child(1){
@@ -265,8 +277,9 @@ page {
   width: 100%;
   text-align: center;
   background: #34c9ae;
-  padding: 10px 0;
+  padding: 5px 0;
   margin-top: 5px;
+  font-size:16px;
 }
 .modal {
   position: fixed;
@@ -276,7 +289,7 @@ page {
   right: 0;
   background-color: rgba(0,0,0,0.8);
   z-index: 1000;
-  padding-top: 60px;
+  /* padding-top: 60px; */
   overflow-y:scroll;
 }
 .tip {
@@ -286,6 +299,7 @@ page {
   color: #000;
   border-radius: 20px;
   height: 68%;
+  margin-top:60px;
 }
 .tip view:nth-child(1){
   text-align:center;
@@ -405,15 +419,23 @@ page {
     height: 323px;
   }
   .btn{
-    width:70px;
+    width:33%;
   }
   .flex-item{
     width:38px;
   }
 }
+.imageAdd{
+  position: absolute;
+  right: 60rpx;
+  top: 10rpx;
+}
 @media only screen and (max-width: 320px) { 
   .useforever::before,.useforever::after {
     width: 52px;
+  }
+  .imageAdd{
+    top: -10rpx;
   }
   .pay,.debao {
     font-size:16px;
@@ -430,11 +452,8 @@ page {
   .count {
     padding-left: 30px;
   }
-  .reset {
-    margin:8px 0 0 10px;
-  }
   .btn{
-    width:70px;
+    width:33%;
     padding:2px;
     font-size:14px;
     margin:5px
@@ -450,6 +469,7 @@ page {
     padding:10px 20px;
     background:#FFF;
     border-radius: 20px;
+    margin-top:60px;
 }
 .input {
   border: 1px #BCC1CC solid;
@@ -527,29 +547,28 @@ page {
 }
 .dieSpan{
   position: absolute;
-  right: 10px;
+  right: 4px;
   font-weight: 900;
   font-size: 1.5em;
   color: #35C9AE;
-  top: -12px;
+  top: -14px;
+  padding:2px 10px;
 }
 .dead {
-  margin-top: 4.5em;
 }
 .deadmsg{
-  background: #202735;
+  background-color: rgba(24, 32, 41, 0.35);
   padding: 10px;
   color: #35C9AE;
-  height: 80px;
 }
 .deadDesc {
-  padding: 10px;margin-top: 15px;width: 44%;text-align: center;
+  padding: 10px;width: 44%;text-align: center;
 }
 .DeadCard {
   flex-wrap: wrap;
   background: #0F131A;
   overflow-y: scroll;
-  height: 100%;
+  padding-top:10rpx;
 }
 .DeadCard view:last-child{
   margin-bottom:1em;
@@ -572,7 +591,7 @@ page {
 }
 @media only screen and (max-width: 375px) { 
   .dead {
-    margin-top:1.5em;
+   
   }
 }
 .rng {
@@ -590,7 +609,7 @@ page {
   border:2px solid #1db571;
 }
 .disable {
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(0, 0, 0, 0.65) !important;
 }
 .close {
   font-size:1.2em;
@@ -605,4 +624,123 @@ page {
   font-size: 20px;
   color: #757580;
   display: block;
+}
+.cardImg{
+  display:block;
+  width: 50rpx;height: 48rpx;
+  margin:8rpx auto;
+}
+.fill {
+  width: 35.5rpx;height: 30.72rpx;
+  margin:4rpx auto;
+  margin-top:6rpx;
+}
+.v-bottom{
+  position: fixed;
+  bottom: 0;right: 0;left: 0;top: 117px;
+}
+.add {
+  width:76rpx;
+  height:76rpx;
+}
+
+.imageAdd image{
+  padding: 10rpx 0;
+}
+.arrow {
+  width:33px;
+  height:10px;
+  padding:5px 10px;
+}
+.flipy {
+    -moz-transform:scaleY(-1);
+    -webkit-transform:scaleY(-1);
+    -o-transform:scaleY(-1);
+    transform:scaleY(-1);
+    /*IE*/
+    filter:FlipV;
+}
+
+.user::before {
+  content:"\f007";
+  box-sizing:border-box;
+}
+.adImg {
+  width: 100%;
+  height: 40px;
+}
+.down {
+  position:relative;
+  background:#FFF;
+  margin:0 20px;
+  color:#000;
+  border-radius:20px;
+  height:72%;
+  margin-top:60px;
+}
+.down-btn {
+  font-size:14px;
+  padding:5px 10px;
+  background:#28c8a9;
+  color: #FFF;
+  border-radius:5px;
+  width:70px;
+  margin:0 auto;
+}
+.down-img {
+  padding: 10px;
+  border:2px solid #979899;
+  border-radius:8px;
+  width:86rpx;
+  height:86rpx;
+}
+.close-img {
+  width: 17px;height: 17px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.help-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.head-image{
+  width: 30px;height: 30px;
+  border-radius:3.4375em;
+  position: absolute;
+  left: 5px;top: 5px;
+}
+.shade {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+.screen {
+  position: fixed;
+  left: 0;right: 0;bottom: 0;
+  background: #212029;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px 0;
+}
+.middle {
+  position: fixed;
+  right: 0;left: 0;
+  bottom:45px;
+  top:84px;
+  background-color:#0F131A;
+}
+.heng {
+  width:40rpx;
+  height:40rpx;
+}
+.rb {
+  display: flex;
+  width: 45px;
+  height: 32px;
+  margin:5px 5px 0;
 }

@@ -1,0 +1,24 @@
+<template name="down">
+  <view class="down {{ setp[0] === 7 ? '' : 'none'}}">
+    <view style="font-size:20px;text-align:center;padding:30px 0 0 0;position:relative;">下载德堡德州扑克APP
+      <image class="close-img" bindtap="closeDown"  src='/images/close.png'></image>
+    </view>
+    <view style="font-size:14px;text-align:center;padding:10px 0 30px 0;">使用浏览器打开链接或者扫描二维码</view>
+    <view style="display:flex;padding:10px 0">
+      <view style="width:50%;">
+        <image class="cardImg down-img" bindtap="showDown"  src='/images/url.png'></image>
+        <view style="text-align:center;margin:10px 0;"><view class="down-btn" bindtap="copyUrl">复制链接</view></view>
+      </view>
+      <view style="width:50%;">
+        <image class="cardImg down-img" bindtap="showDown"  src='/images/qr.png'></image>
+        <view style="text-align:center;margin:10px 0;"><view class="down-btn" bindtap="saveQr">保存二维码</view></view>
+      </view>
+    </view>
+    <view style="text-align:center;margin:40px 0 10px 0">
+      专业德州扑克尽在德堡德州扑克
+    </view>
+    <view style="text-align:center;color:#979899;font-size:16px;margin:10px 0">
+      wwww.debao.com | 客服微信：ldl91515
+    </view>
+  </view>
+</template>

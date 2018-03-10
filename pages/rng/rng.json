@@ -1,3 +1,4 @@
 {
-  "component": true
+	"navigationBarTitleText": "选择手牌范围",
+	"component": true
 }

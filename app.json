@@ -2,7 +2,7 @@
   "pages":[
     "pages/home/home",
     "pages/rng/rng",
-    "pages/logs/logs"
+    "pages/help/help"
   ],
   "window":{
     "backgroundTextStyle":"light",

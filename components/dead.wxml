@@ -1,19 +1,27 @@
 <template name="dead">
   <view class="dead {{ setp[0] === 4 ? '' : 'none'}}">
-    <view class="deadmsg">
+    <view class="deadmsg" >
+      <view class="flex" style="background-color: rgba(24, 32, 41, 0.35);position:relative;">
+        <view>已选的死牌：</view>
+        <view bindtap="resetDead" style="position:absolute;right:0">重置</view>
+      </view>
+      
       <span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span>
     </view>
-    <view class="flex DeadCard">
-      <span class="deadDesc">Dead Cards</span>
-
-      <view wx:for="{{deadCard}}" wx:key="index" bindtap="selDeadCard" data-lid="{{item}}"  class="flex-item car {{item.s === 1 ? 'yellow' : ''}}">
-        <span class="icon {{color[item['c']]}}">{{shape[item['c']]}}</span>
-        <span class="number {{color[item['c']]}} {{item['id'] == 4 ? 'small' : ''}}">{{cards[item['id']]}}</span>
+    <view style="position:fixed;bottom:0;">
+      <view class="flex DeadCard" >
+      <span class="deadDesc">死牌(Dead Cards)</span>
+      <view wx:for="{{deadCard}}" wx:key="index" bindtap="selDeadCard" data-lid="{{item}}"  class="flex-item child car {{item.s === 1 || item.s === 3 ? 'yellow' : ''}}">
+       <view style="margin:0;" class="shade {{item.s === 2 ? 'disable' : ''}}"></view>
+        <image class="cardImg fill" src='{{"/images/" + item.id + "_" + item.c + ".png"  }}'></image>
+       <image class="cardImg fill"  src='{{"/images/" + item.c + ".png"  }}'></image>
       </view> 
-    </view>
-    <view class="flex btnDead">
-        <view bindtap="resetDead">重置</view>
+      </view>
+      <view class="flex btnDead">
+        <view bindtap="cancelDead">取消</view>
         <view bindtap="okDead" style="background: #35C9AE;">确定</view>
       </view>
+    </view>
+    
   </view>
 </template>

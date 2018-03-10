@@ -2,11 +2,18 @@
 <import src="../../components/login/login.wxml" />
 <import src="../../components/pay.wxml" />
 <import src="../../components/dead.wxml" />
+<import src="../../components/down.wxml" />
+<import src="../../components/result.wxml" />
+<import src="../../components/resbig.wxml" />
+
 <view class="loading {{loading ? '' : 'none'}}"></view>
 <view class="modal {{using ? 'none' : ''}}">
   <template  is="login" data="{{...sel,setp,account}}"/>
   <template  is="pay" data="{{...sel,setp}}"/>
-  <template  is="dead" data="{{ ...shap,deadCard,shape,shap,setp,cards,selDead,color }}"/>
+  <template  is="down" data="{{...sel,setp}}"/>
+  <template  is="result" data="{{...selectCards,selDead,shap,rngDesc,rate,players,setp,cards,sel,shape,color,item}}"/>
+  <template  is="resbig" data="{{...selectCards,selDead,shap,rngDesc,rate,players,setp,cards,sel,shape,color,item}}"/>
+  <template  is="dead" data="{{ ...shap,deadCard,shape,shap,setp,cards,selDead,color,dHeight }}"/>
   <view class="register {{ setp[0] === 1 ? '' : 'none'}}">
     <view class="reg-top">
       <i bindtap="back"></i>
@@ -63,11 +70,21 @@
   </view>
   <view class="startUse {{ setp[0] === 0 ? '' : 'none'}}" bindtap="using">{{open ? '开始试用' : '确定'}}</view>
 </view>
-<view class="flex">
-<view class="login fa fa-user " bindtap="loginB" data-fid="3"> {{nickName}} </view>
-<view class="forever {{isLogin ? 'none' : ''}}">可以试用<span>{{days}}</span>天 <span data-fid="3" bindtap="usingB">永久使用</span></view>
+<view class="flex" style="background:#373a44;position: relative;">
+  <block wx:if="{{isLogin}}">
+    <image class="head-image" src="https://debao.com{{headUrl}}"></image>
+  </block>
+  <block wx:else>
+  <view class="login fa fa-user " bindtap="loginB" data-fid="3"> 
+    {{nickName}} 
+  </view>
+  </block>
+  <image class="{{isLogin ? '' : 'none'}}" style="width:121px;height:20px;margin:10px auto;" bindtap="add"  src='/images/logo.png'></image>
+  <navigator url="/pages/help/help" hover-class="navigator-hover">
+  <image style="position:absolute;width:12px;height:18px;right:15px;top:8px;padding:2px 10px 10px;"   src='/images/question.png'></image>
+  </navigator>
+  <view class="forever {{isLogin ? 'none' : ''}}">可以试用<span>{{days}}</span>天 <span data-fid="3" bindtap="usingB">永久使用</span></view>
 </view>
-
 
 <view class="flex row">
   <view class="title">公共牌</view>
@@ -82,10 +99,11 @@
     </view>
   </view>
 </view>
-<view class="">
-  <scroll-view scroll-y class="scroll" scroll-top="{{scrollHeight}}">
+<view class="v-bottom">
+  <view class="v-scroll">
+  <scroll-view scroll-y scroll-with-animation="true" style="height:{{sHight}}px" class="scroll" scroll-top="{{scrollHeight}}">
     <view class='flex player' wx:for="{{players}}" wx:key="index">
-      <view style="width: 10%;">P{{index+1}}</view>
+      <view style="width: 10%;" class="user fa fa-user"> {{index+1}}</view>
       <block wx:if="{{!rngDesc['P'+index]}}">
         <template wx:for="{{[item+1,item+2]}}" wx:key="index" is="card" data="{{...selectCards,cards,sel,shape,color,item}}" />
       </block>
@@ -94,44 +112,51 @@
           {{rngDesc['P'+index].desc}}
         </view>
       </block>
-      
       <view class="count">
         <p class="lose">{{!rate[index] ? '--' : rate[index][0]}}%</p>
         <p class="win">WIN: {{!rate[index] ? '--' : rate[index][1]}}%</p>
         <p class="tie">Tie: {{!rate[index] ? '--' : rate[index][2]}}%</p>
       </view>
     </view>
-   <!--  <view class="btnAdd {{total === 23 ? 'none' : ''}}" bindtap="add">+</view> -->
-    <view class="flex btnAdd">
-        <view class="btnAdd" bindtap="add">+</view>
-        <view bindtap="reduce" style="background: #35C9AE;color:red;">-</view>
-      </view>
   </scroll-view>
-  <view class="flex-wrp card">
-    <view bindtap='selectCard' data-d="{{item.d}}" data-index="{{index}}" data-id="{{item.id}}" data-pid="{{item.pid}}" class="flex-item child {{color[item.c]}} {{item.s === 1 ? 'hide' : ''}} {{item.d === 1 ? 'disable' : ''}}" data-c="{{item.c}}" data-s="{{item.s}}" wx:for="{{card}}" wx:key="item.id">
-        <span class="number {{item.id == 4 ? 'small' : ''}}">{{cards[item.id]}}</span>
-        <span class="icon">{{shape[item.c]}}</span>
+  <view class="imageAdd">
+    <image class="cardImg add" bindtap="add"  src='/images/plus.png'></image>
+    <image class="cardImg add" bindtap="reduce"  src='/images/reduce.png'></image>
+    <image class="cardImg add {{ isBottom ? '' : 'none'}}" bindtap="showResult"  src='/images/bottom.png'></image>
+  </view>
+  <view class="flex btnAdd">
+    <view class="btnAdd {{ isDown ? 'none' : ''}}" ><image class="arrow" bindtap="packDown" src='/images/arrow-down.png'></image></view>
+    <view class="btnAdd {{ isDown ? '' : 'none'}}" ><image class="arrow flipy" bindtap="packUp" src='/images/arrow-down.png'></image></view>
+  </view>
+  </view>
+  <view class="{{ isDown ? 'none' : ''}}" id="down">
+    <view class="flex-wrp card">
+      <view bindtap='selectCard' data-d="{{item.d}}" data-index="{{index}}" data-id="{{item.id}}" data-pid="{{item.pid}}" class="flex-item child  {{color[item.c]}} {{item.s === 1 ? 'hide' : ''}} " data-c="{{item.c}}" data-s="{{item.s}}" wx:for="{{card}}" wx:key="item.id">
+        <view class="shade {{item.d === 1 ? 'disable' : ''}}"></view>
+        <image class="cardImg fill" src='{{"/images/" + item.id + "_" + item.c + ".png"  }}'></image>
+         <image class="cardImg fill"  src='{{"/images/" + item.c + ".png"  }}'></image>
+      </view>
+      <view class="btnClear" bindtap="clear">清 除</view>
     </view>
-    <view class="btnClear" bindtap="clear">清 除</view>
-  </view>
-  <view class="flex-wrp num">
-    <view  class="poker {{index == choseCard ? 'choseCard' : ''}}" wx:for="{{cards}}" data-id="{{index}}" wx:key="index" bindtap="chosePoker">{{cards[index]}}</view>
-    <view  class="poker"  bindtap="rng">Rng</view>
-  </view>
-  <view class="flex-wrp die">
-    <view style="margin-left:10px">Dead Cards:<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
-    <span bindtap="showDead" class="dieSpan">+</span>
+    <view class="flex-wrp num ">
+      <view  class="poker {{index == choseCard ? 'choseCard' : ''}}" wx:for="{{cards}}" data-id="{{index}}" wx:key="index" bindtap="chosePoker">{{cards[index]}}</view>
+      <view  class="poker"  bindtap="rng">Rng</view>
+    </view>
+    <view class="flex-wrp die">
+      <view style="margin-left:10px">死牌(Dead Cards):<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
+      <span bindtap="showDead" class="dieSpan">+</span>
+    </view>
+    <view class="flex-wrp bottom">
+      <view class="btn {{model == 1 ? 'chose' : ''}}" data-model="1" bindtap="chose">标准德州</view>
+      <view class="btn {{model == 0 ? 'chose' : ''}}" data-model="0" bindtap="chose">短牌花大</view>
+      <view class="btn {{model == 2 ? 'chose' : ''}}" data-model="2" bindtap="chose">短牌葫芦大</view> 
+    </view>
   </view>
   <view class="flex-wrp bottom">
-    <view class="btn {{model == 1 ? 'chose' : ''}}" data-model="1" bindtap="chose">标准德州</view>
-    <view class="btn {{model == 0 ? 'chose' : ''}}" data-model="0" bindtap="chose">短牌花大</view>
-    <view class="btn {{model == 2 ? 'chose' : ''}}" data-model="2" bindtap="chose">短牌葫芦大</view> 
     <view class="reset" bindtap="reset">重置</view>
-  </view>
-  <view class="flex-wrp bottom">
     <view class="qcount" bindtap="qcount">计算</view>
   </view>
-  <view class="flex-wrp bottom text">
-    玩德州就在德堡{{test}}
+  <view class="flex-wrp">
+    <image bindtap="showDown" class="adImg"  src='/images/ad.png'></image>
   </view>
 </view>

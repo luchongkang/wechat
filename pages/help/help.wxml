@@ -1,0 +1,3 @@
+<view class="help-img" >
+    <image  style="width:100%;height:{{hHeight}}px" src='/images/help.png'></image>
+</view>

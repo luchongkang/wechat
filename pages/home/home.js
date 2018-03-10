@@ -38,7 +38,13 @@ Page({
       {'pid':40,'id': 10, 'c': 0,'s':0},{'pid':41,'id': 10, 'c': 1,'s':0},{'pid':42,'id': 10, 'c': 2,'s':0},{'pid':43,'id': 10, 'c': 3,'s':0},//4
       {'pid':44,'id': 11, 'c': 0,'s':0},{'pid':45,'id': 11, 'c': 1,'s':0},{'pid':46,'id': 11, 'c': 2,'s':0},{'pid':47,'id': 11, 'c': 3,'s':0},//3
       {'pid':48,'id': 12, 'c': 0,'s':0},{'pid':49,'id': 12, 'c': 1,'s':0},{'pid':50,'id': 12, 'c': 2,'s':0},{'pid':51,'id': 12, 'c': 3,'s':0}//2
-
+    ],
+    shortCard:[
+      // ID：牌型ID 对应的是 cards字段  c ：牌型花色黑桃、红心、梅花、方片 对应的 shape s:是否已经选择
+      {'pid':36,'id': 9, 'c': 0,'s':0},{'pid':37,'id': 9, 'c': 1,'s':0},{'pid':38,'id': 9, 'c': 2,'s':0},{'pid':39,'id': 9, 'c': 3,'s':0},//5
+      {'pid':40,'id': 10, 'c': 0,'s':0},{'pid':41,'id': 10, 'c': 1,'s':0},{'pid':42,'id': 10, 'c': 2,'s':0},{'pid':43,'id': 10, 'c': 3,'s':0},//4
+      {'pid':44,'id': 11, 'c': 0,'s':0},{'pid':45,'id': 11, 'c': 1,'s':0},{'pid':46,'id': 11, 'c': 2,'s':0},{'pid':47,'id': 11, 'c': 3,'s':0},//3
+      {'pid':48,'id': 12, 'c': 0,'s':0},{'pid':49,'id': 12, 'c': 1,'s':0},{'pid':50,'id': 12, 'c': 2,'s':0},{'pid':51,'id': 12, 'c': 3,'s':0}//2
     ],
     userName: '',
     userPwd: '',
@@ -84,7 +90,14 @@ Page({
     tempName: '',
     open: true,
     days: 30,
-    test: ''
+    sHight: 0,
+    isDown: false,
+    tempHight:0,
+    dHeight: 180,
+    hHeight: 667,
+    isHelp: 'none',
+    headUrl: '/static/images/sysimage/avatar.png',
+    isBottom: false
   },
   paying(){
     var openID = wx.getStorageSync('openID')
@@ -109,7 +122,6 @@ Page({
     Debao.req(data, (res) => {
       wx.hideLoading();
       this.setData({loading: false});
-      console.log(res)
       if(res.data.status == 0){
         wx.showModal({
           title: '错误',
@@ -331,7 +343,8 @@ Page({
         duration: 2000
       })
       wx.setStorage({key:"userInfo",data :res.data.name })
-      this.setData({isLogin :true, nickName :res.data.name, status: 1,using :true})
+      wx.setStorage({key:"headUrl",data :res.data.url })
+      this.setData({isLogin :true, nickName :res.data.name, status: 1,using :true ,headUrl :res.data.url})
       this.back()
     })
   },
@@ -352,9 +365,20 @@ Page({
   },
   okDead() {
     let temp = []
-    this.data.selDead.map(function(e) {
+    let sel = []
+    let dead = this.data.deadCard.map( e =>{
+      if(e.s === 3 || e.s === 1){
         temp.push(e.pid)
+        sel.push(e)
+      }
+      if(e.s === 3){
+        e.s = 1
+      }
+      return e
     })
+    // this.data.selDead.map(function(e) {
+    //     temp.push(e.pid)
+    // })
     let poker = this.data.pokers.map((e) => {
       if(temp.includes(e.pid) ){
         e.d = 1
@@ -367,7 +391,17 @@ Page({
       } else { e.d = 0}
       return e
     })
-    this.setData({using: true,pokers :poker, card: card})
+    
+    this.setData({using: true,pokers :poker, deadCard: dead, card: card, selDead: sel})
+  },
+  cancelDead(){
+    let dead = this.data.deadCard.map( e =>{
+      if(e.s === 3){
+        e.s = 0
+      }
+      return e
+    })
+    this.setData({using: true, deadCard: dead,})
   },
   selDeadCard(e) {
     let selectCards = this.data.selectCards.selectCards
@@ -387,21 +421,20 @@ Page({
       return false
     }
     let dead = this.data.deadCard
-    if( temp.s === 1 ){
+    if( temp.s === 3 || temp.s === 1){
       dead[temp.pid].s = 0
+      // let arr = this.data.selDead.filter(function(e) {
+      //   return e.pid !== temp.pid
+      // })
       this.setData({deadCard: dead})
-      let arr = this.data.selDead.filter(function(e) {
-        return e.pid !== temp.pid
-      })
-      this.setData({selDead: arr})
       return false
     }
-    dead[temp.pid].s = 1
+    dead[temp.pid].s = 3 // 3 以选中 1 已经选择  
     this.setData({deadCard: dead})
-    temp.s = 1
-    let arr = this.data.selDead
-    arr.push(temp)
-    this.setData({selDead: arr})
+    // temp.s = 3
+    // let arr = this.data.selDead
+    // arr.push(temp)
+    // this.setData({selDead: arr})
   },
   showDead() {
     this.setData({setp: [4, 0], using: false})
@@ -500,7 +533,6 @@ Page({
   },
   back: function() {
     let s1 = parseInt(this.data.setp[1])
-    console.log(this.data.setp)
     let s = this.data.setp[0]
     if ( s1 == 3) {
       this.setData({using: true})
@@ -566,7 +598,7 @@ Page({
           })
           return false;
         }
-        that.setData({rate :res.data.data});
+        that.setData({rate :res.data.data ,isBottom :true});
       },
       fail(res){
         wx.showModal({
@@ -629,8 +661,14 @@ Page({
           break;
         }
       }
-      that.setData({card: card});
-      that.setData({ selectCards: cards})
+      let deadCard = that.data.deadCard
+      for (var i = deadCard.length - 1; i >= 0; i--) {
+        if (deadCard[i].pid === ref.dataset.pid){
+          deadCard[i].s = 0;
+          break;
+        }
+      }
+      that.setData({ selectCards: cards,card: card, deadCard: deadCard})
     }).exec()
   }, 
   add: function(e) {
@@ -651,41 +689,49 @@ Page({
     player.splice(-1,1)
     this.setData({total: this.data.total-2})
     this.setData({players: player})
-    this.setData({scrollHeight: this.data.scrollHeight - 200})
+    // this.setData({scrollHeight: this.data.scrollHeight - 200})
   },
   chose: function(e) {
     let model = e.currentTarget.dataset.model
+    if(model == this.data.model){
+      return false
+    }
     var player = this.data.pokers
     var len = player.length;
     let temp = [12,11,10,9]
     let selectCards = this.data.selectCards.selectCards
+    let deadCard = this.data.deadCard
+    // this.resetDead()
     if(model == 1){
       for (var i = 0;i < len; i++) {
         if(temp.includes(player[i].id)){
           player[i].s = 0;
         }
       }
-      this.setData({cards :['A','K','Q','J','10','9','8','7','6','5','4','3','2']})
+      let dead = deadCard.concat(this.data.shortCard)
+      this.setData({cards :['A','K','Q','J','10','9','8','7','6','5','4','3','2'], deadCard: dead})
     } else {
       for(var key in selectCards){
         if(temp.includes(selectCards[key].id)){
           delete selectCards[key]
         }
       }
-      this.setData({cards :['A','K','Q','J','10','9','8','7','6']})
+      let dead = deadCard.filter((obj)=>{
+        return !temp.includes(obj.id)
+      })
+      this.setData({cards :['A','K','Q','J','10','9','8','7','6'], deadCard: dead})
     }
-    for(var key in selectCards){
-      if([0].includes(selectCards[key].id)){
-        delete selectCards[key]
+    let choseCard = 0
+    let card = []
+    if(temp.includes(this.data.choseCard)){
+      for (var i = 0;i < len; i++) {
+        if(0 === player[i].id){
+          card.push(player[i])
+        }
       }
+      this.setData({choseCard: 0, card: card})
     }
-    for (var i = 0;i < len; i++) {
-      if([0].includes(player[i].id)){
-        player[i].s = 0;
-      }
-    }
-    let card = [{'pid':0,'id': 0, 'c': 0,'s':0,'d':0},{'pid':1,'id': 0, 'c': 1,'s':0,'d':0},{'pid':2,'id': 0, 'c': 2,'s':0,'d':0},{'pid':3,'id': 0, 'c': 3,'s':0,'d':0}]
-    this.setData({model: model, choseCard: 0, card :card, selectCards: {selectCards: selectCards} ,pokers: player})
+    this.setData({model: model,  selectCards: {selectCards: selectCards} ,pokers: player})
   },
   reset: function() {
     var player = this.data.pokers;
@@ -706,8 +752,8 @@ Page({
           // 把下面的牌设置为默认值
           that.setData({card: [{'pid':0,'id': 0, 'c': 0,'s':0},{'pid':1,'id': 0, 'c': 1,'s':0},{'pid':2,'id': 0, 'c': 2,'s':0},{'pid':3,'id': 0, 'c': 3,'s':0}]});
           that.setData({players: [5,7]});
-          that.setData({sel: 1});
-          that.setData({total: 9});
+          that.setData({sel: 1, rate: []});
+          that.setData({total: 9, choseCard: 0});
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
@@ -763,13 +809,13 @@ Page({
       if(ref.dataset.pid !== ""){
         pokers[parseInt(ref.dataset.pid)].s = 0;
         that.setData({pokers: pokers});
-        var arr = [];
         for (var i = card.length - 1; i >= 0; i--) {
           if (card[i].pid === ref.dataset.pid){
             card[i].s = 0;
             break;
           }
         }
+
         that.setData({card: card});
       }
       if (ref.dataset.lid === that.data.total) {
@@ -777,7 +823,14 @@ Page({
       } else {
         that.setData({ sel: (parseInt(ref.dataset.lid)+1)})
       }
-      that.setData({ selectCards: cards})
+      let deadCard = that.data.deadCard
+      for (var i = deadCard.length - 1; i >= 0; i--) {
+        if (deadCard[i].pid === data.pid){
+          deadCard[i].s = 2;
+          break;
+        }
+      }
+      that.setData({ selectCards: cards, deadCard: deadCard})
     }).exec()
   },  
   selBox: function( e ) {  
@@ -798,10 +851,93 @@ Page({
     }
     this.setData({lastTapDiffTime: curTime})
   },
+  packUp: function(){
+    this.setData({isDown :false ,sHight :this.data.tempHight})
+  },
+  packDown: function(){
+    var query = wx.createSelectorQuery();
+    query.select('#down').boundingClientRect()
+    query.exec( (res) => {
+      //取高度
+      let h = this.data.sHight + res[0].height
+      this.setData({isDown :true ,sHight :h ,tempHight :this.data.sHight})
+    })
+    
+  },
+  // hideHelp() {
+  //   this.setData({isHelp :'none'})
+  // },
+  // showHelp: function(){
+  //   var res = wx.getSystemInfoSync()
+  //   let h = (res.windowWidth/640) * 1680
+  //   this.setData({isHelp: '', hHeight: h})
+  //   // wx.previewImage({
+  //   //   urls: ['https://i.loli.net/2018/03/02/5a98c21e01551.png'] // https://sm.ms/delete/FjQBv5e2dx1qLGH
+  //   // })
+  // },
+  showDown() {
+    this.setData({setp: [7, 0], using: false})
+  },
+  closeDown() {
+    this.setData({using: true})
+  },
+  copyUrl() {
+    wx.setClipboardData({
+      data: 'http://cache.debao.com/down1.html',
+      success: function(res) {
+        wx.showToast({
+          title: '复制成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
+  },
+  saveQr() {
+    this.setData({loading: true});
+    wx.showLoading({
+      title: '保存中',
+    })
+    let that = this
+    wx.saveImageToPhotosAlbum({
+      filePath: '/images/qr1.png',
+      success(res) {
+        that.setData({loading: false});
+        wx.hideLoading();
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 2000
+        })
+      },
+      fail() {
+        that.setData({loading: false});
+        wx.hideLoading();
+        wx.showToast({
+          title: '保存失败',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  },
+  hideResult() {
+    this.setData({using: true})
+  },
+  showResult() {
+    if(this.data.total < 16)
+      this.setData({setp: [8, 0], using: false})
+    else 
+      this.setData({setp: [9, 0], using: false})
+  },
   onLoad: function() {
+    var res = wx.getSystemInfoSync()
+    var sHight = res.screenHeight - 504
     let userInfo = wx.getStorageSync('userInfo')
+    this.setData({ sHight: sHight})
     if (userInfo) {
-      this.setData({isLogin :true, nickName :userInfo, status: 1,using :true})
+      let url = wx.getStorageSync('headUrl')
+      this.setData({isLogin :true, nickName :userInfo, status: 1,using :true, headUrl:url})
       return false 
     }
     wx.getUserInfo({

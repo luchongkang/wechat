@@ -1,0 +1,69 @@
+<import src="./card/card.wxml" />
+<template name="result">
+  <view class="reslut {{ setp[0] === 9 ? '' : 'none'}}" bindtap="hideResult">
+    <view class="flex row">
+  <view class="title">公共牌</view>
+  <view class="flex column">
+    <view class="flex-wrp">
+       <view wx:for="{{[1,2,3]}}" wx:key="index"  data-pid="{{selectCards['card'+item] ? selectCards['card'+item].pid : ''}}" data-id="card{{item}}" data-lid="{{item}}"   
+    class="flex-item {{selectCards['card'+item] ? 'car' : ''}} ">
+       <block wx:if="{{selectCards['card'+item]}}">
+        <image class="cardImg" src='{{"/images/" + selectCards["card"+item].id + "_" + selectCards["card"+item].c + ".png"  }}'></image>
+       <image class="cardImg"  src='{{"/images/" + selectCards["card"+item].c + ".png"  }}'></image>
+        </block>
+        <block wx:else>
+          <view class="unknown">?</view>
+        </block>
+      </view>
+    </view>
+  </view>
+  <view class="flex column en">
+    <view class="flex-wrp">
+      <view wx:for="{{[4,5]}}" wx:key="index" data-pid="{{selectCards['card'+item] ? selectCards['card'+item].pid : ''}}" data-id="card{{item}}" data-lid="{{item}}"   
+    class="flex-item {{selectCards['card'+item] ? 'car' : ''}} ">
+       <block wx:if="{{selectCards['card'+item]}}">
+        <image class="cardImg" src='{{"/images/" + selectCards["card"+item].id + "_" + selectCards["card"+item].c + ".png"  }}'></image>
+       <image class="cardImg"  src='{{"/images/" + selectCards["card"+item].c + ".png"  }}'></image>
+        </block>
+        <block wx:else>
+          <view class="unknown">?</view>
+        </block>
+    </view>
+    </view>
+  </view>
+</view>
+<view class="middle">
+  <view class='flex player' wx:for="{{players}}" wx:key="index">
+    <view style="width: 10%;padding:12px 0 0 30px;" class="user fa fa-user"> {{index+1}}</view>
+        <block wx:if="{{!rngDesc['P'+index]}}">
+          <view wx:for="{{[item+1,item+2]}}"  wx:key="index"  data-pid="{{selectCards['card'+item] ? selectCards['card'+item].pid : ''}}" data-id="card{{item}}" data-lid="{{item}}"   
+      class="rb flex-item {{selectCards['card'+item] ? 'car' : ''}} ">
+        <block wx:if="{{selectCards['card'+item]}}">
+          <image class="cardImg heng" src='{{"/images/" + selectCards["card"+item].id + "_" + selectCards["card"+item].c + ".png"  }}'></image>
+          <image class="cardImg heng"  src='{{"/images/" + selectCards["card"+item].c + ".png"  }}'></image>
+        </block>
+        <block wx:else>
+          <view class="unknown" style="padding:0 !important;width:45px;text-align:center;">?</view>
+        </block>
+        </view>
+        </block>
+        <block wx:else>
+          <view data-sel="{{rngDesc['P'+index].sel}}" class="rng {{sel === (index + 24) ? 'selrng selected' : ''}}" data-lid="{{index + 24}}"  bindtap="selBox">
+            {{rngDesc['P'+index].desc}}
+          </view>
+        </block>
+        <view style="margin:10px 0 0 10px;"><p class="lose">{{!rate[index] ? '--' : rate[index][0]}}%</p></view>
+        <view class="count" style="margin:0;padding-left:20px;">
+          <p class="win">WIN: {{!rate[index] ? '--' : rate[index][1]}}%</p>
+          <p class="tie">Tie: {{!rate[index] ? '--' : rate[index][2]}}%</p>
+        </view>
+    </view>
+    <view class="flex-wrp die">
+      <view style="margin-left:10px">死牌(Dead Cards):<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
+    </view>
+    </view>
+  <view class="screen">
+    截屏保存，随时分享
+  </view>
+    </view>
+</template>

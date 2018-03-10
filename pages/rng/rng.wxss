@@ -63,7 +63,8 @@
 .slider {
   padding: 5px 0;
   position: relative;
-  
+  margin-left:25px;
+
 }
 .slider span{
   position: absolute;
