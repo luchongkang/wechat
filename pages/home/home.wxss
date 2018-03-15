@@ -22,7 +22,7 @@ page {
     width:250px;
 }
 .en{
-  margin-left:10%;
+  margin-left:25px;
 }
 .number, .icon {
   position: absolute;
@@ -74,7 +74,7 @@ page {
   background-color: rgba(0, 0, 0, 0.3);
 }
 .title {
-    padding:30px 0 0 10px;
+    padding:30px 5px 0 18px;
     font-size:14px;
 }
 .scroll {
@@ -115,11 +115,12 @@ page {
 .btn {
     width: 33%;
     margin-top: 10px;
-    margin:5px 10px;
+    margin:5px 20px;
     padding:5px;
-    border:2px solid #3f4d69;
+    border:2px solid #777b8c;
     font-size:14px;
     text-align: center;
+    background: #20212c;
 }
 .child{
   background: #FFF;
@@ -165,7 +166,7 @@ page {
   position:absolute;
   right:10px;
   margin:18px;
-  color:#1db571;
+  color:#949db3;
 }
 .poker {
     border: 1px solid #202735;
@@ -183,7 +184,8 @@ page {
     background: #202735;
 }
 .reset {
-    background: #42415A;
+    background: #3b3e56;
+    color: #949db3;
     padding:5px 0;
     margin-top:5px;
     font-size:16px;
@@ -191,18 +193,20 @@ page {
     text-align: center;
 }
 .choseCard {
-  background: #5d729c;
+  background: #949db3 !important;
+  color: #0f131a;
+  background: #0f131a;
 }
 .chose {
-  border: 2px #35C9AE solid;
+  border: 2px #14c9a8 solid;
   color: #35C9AE;
 }
 .small {
     left:3px;
 }
 .selected{
-  border-color: #1db571;
-  box-shadow:0 0 18px rgba(29, 181, 113, 1);
+  border-color: #00ffcc;
+  /* box-shadow:0 0 18px rgba(29, 181, 113, 1); */
 }
 .hide span{
   display:none !important;
@@ -241,7 +245,8 @@ page {
 .unknown {
     font-size: 22px;
     color: #B8B8B8;
-    padding: 15px 10px 10px 12px !important;
+    /* padding: 15px 10px 10px 12px !important; */
+    padding:30% 50% 33% 30% !important;
     border-radius: 7%;
     margin: 2px;
     margin-bottom: -1px; 
@@ -253,7 +258,7 @@ page {
 }
 .login {
   position: absolute;
-  color: #35C9AE;
+  color: #8890a3;
   margin: 5px 30px 5px 10px;
 }
 .forever {
@@ -261,11 +266,12 @@ page {
   font-size: 16px;
 }
 .forever span:nth-child(1){
-  color: #35C9AE;
+  color: #E98900;
 }
 .forever span:nth-child(2){
   background: #E98900;
   padding: 2px 5px;
+  border-radius:5px;
 }
 .fa {
   font-family: "fa" !important;
@@ -276,7 +282,7 @@ page {
 .qcount {
   width: 100%;
   text-align: center;
-  background: #34c9ae;
+  background: #14c9a8;
   padding: 5px 0;
   margin-top: 5px;
   font-size:16px;
@@ -537,22 +543,27 @@ page {
 }
 .die {
   position: relative;
-  margin: 5px 0;
+  background:#202735;
 }
 .die view{
-  margin-left: 10px;
-  margin-right:19px;
+  padding:1px 3px;
+  margin-left: 20px;
   font-size: 16px;
   color: #696974;
+  height:40px;
+  margin-right:75px;
+  width:100%;
+  background:#0f131a;
 }
+
 .dieSpan{
-  position: absolute;
-  right: 4px;
+  position:absolute;
+  right:20px;
   font-weight: 900;
   font-size: 1.5em;
-  color: #35C9AE;
-  top: -14px;
-  padding:2px 10px;
+  color: #8c92a5;
+  padding:1px 20px;
+  background:#393c5a;
 }
 .dead {
 }
@@ -595,18 +606,19 @@ page {
   }
 }
 .rng {
-  width:100px;
-  margin:15px 0 0 8px;
-  border-radius:0;
-  font-size:19px;
+  width:80px;
+  margin:15px 5px 0 8px;
+  border-radius:4px;
+  font-size:14px;
   background:#FFF;
   color:#B8B8B8;
-  padding:5px 0px 10px 10px;
+  padding:12px 0px 12px 10px;
   border:2px solid #202735;
   height: 20px;
 }
 .selrng {
-  border:2px solid #1db571;
+  border:2px solid #00ffcc;
+  border-radius:4px;
 }
 .disable {
   background-color: rgba(0, 0, 0, 0.65) !important;
@@ -661,9 +673,12 @@ page {
     filter:FlipV;
 }
 
-.user::before {
+/* .user::before {
   content:"\f007";
   box-sizing:border-box;
+} */
+.user {
+  font-size: 16px;
 }
 .adImg {
   width: 100%;
@@ -743,4 +758,21 @@ page {
   width: 45px;
   height: 32px;
   margin:5px 5px 0;
+}
+.border_dashed{
+    border-left:3rpx dashed #8890a3;
+    margin:16px 0;
+}
+.player-img{
+  width: 22rpx;
+  height: 24rpx;
+  margin: 0 2px;
+}
+@media only screen and (min-width: 414px) { 
+  .unknown {
+    padding:30% 50% 28% 30% !important;
+  }
+  .rng {
+    margin:15px 15px 0 8px;
+  }
 }

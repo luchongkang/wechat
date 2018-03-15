@@ -58,8 +58,8 @@
           <p class="tie">Tie: {{!rate[index] ? '--' : rate[index][2]}}%</p>
         </view>
     </view>
-    <view class="flex-wrp die">
-      <view style="margin-left:10px">死牌(Dead Cards):<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
+    <view class="flex-wrp die" style="background:0">
+      <view style="margin:10px">死牌(Dead Cards):<span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span></view>
     </view>
     </view>
   <view class="screen">

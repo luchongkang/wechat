@@ -191,6 +191,9 @@ var pageData = {
       sel -= 18
     }
     let p = Math.ceil((sel - 5)/2)
+    if(data.sel >23){
+      p++
+    }
     let pp = 'P'+(p-1);
     if(data.rngDesc.hasOwnProperty(pp)){
       let val = data.rngDesc[pp].val

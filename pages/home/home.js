@@ -75,6 +75,7 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     selDead: [],
+    deadDes:'',
     signkey:'003CW13v1JI94d0sFL3v1kYL2v1CW133',
     isLogin: false,
     nickName: '登录',
@@ -366,19 +367,26 @@ Page({
   okDead() {
     let temp = []
     let sel = []
+    let desc = ''
+    let cards = this.data.cards
+    let shap = this.data.shap
+    let i = 0
     let dead = this.data.deadCard.map( e =>{
       if(e.s === 3 || e.s === 1){
         temp.push(e.pid)
         sel.push(e)
+        if(i === 15){
+          desc += '...'
+        }else if(i < 15) {
+          desc += cards[e.id] + shap[e.c] + ' '
+        }
+        i++
       }
       if(e.s === 3){
         e.s = 1
       }
       return e
     })
-    // this.data.selDead.map(function(e) {
-    //     temp.push(e.pid)
-    // })
     let poker = this.data.pokers.map((e) => {
       if(temp.includes(e.pid) ){
         e.d = 1
@@ -392,7 +400,7 @@ Page({
       return e
     })
     
-    this.setData({using: true,pokers :poker, deadCard: dead, card: card, selDead: sel})
+    this.setData({using: true,pokers :poker, deadCard: dead, card: card, selDead: sel, deadDes: desc})
   },
   cancelDead(){
     let dead = this.data.deadCard.map( e =>{
@@ -668,7 +676,7 @@ Page({
           break;
         }
       }
-      that.setData({ selectCards: cards,card: card, deadCard: deadCard})
+      that.setData({ selectCards: cards,card: card, deadCard: deadCard,isBottom: false})
     }).exec()
   }, 
   add: function(e) {
@@ -679,16 +687,56 @@ Page({
     this.setData({total: this.data.total+2})
     player.push(player[player.length-1]+2);
     this.setData({players: player})
-    this.setData({scrollHeight: this.data.scrollHeight + 200})
+    this.setData({scrollHeight: this.data.scrollHeight + 200,isBottom: false})
   },
   reduce(e){
-    if (this.data.total === 9){
+    let total = this.data.total
+    if (total === 9){
       return false;
+    }
+    let cards = this.data.selectCards
+    if(cards.selectCards.hasOwnProperty('card'+total)){
+      let pid = cards.selectCards['card'+total].pid
+      delete cards['selectCards']['card'+total]
+      let pokers = this.data.pokers
+      pokers[parseInt(pid)].s = 0;
+      let card = this.data.card.map((e) => {
+        if(e.pid === pid){
+          e.s = 0
+        }
+        return e
+      })
+      let deadCard = this.data.deadCard.map(e => {
+        if(e.pid === pid){
+          e.s = 0
+        }
+        return e
+      })
+      this.setData({pokers: pokers,selectCards: cards,card: card, deadCard: deadCard,isBottom: false});
+    }
+    --total
+    if(cards.selectCards.hasOwnProperty('card'+ total)){
+      let pid = cards.selectCards['card'+total].pid
+      delete cards['selectCards']['card'+total]
+      let pokers = this.data.pokers
+      pokers[parseInt(pid)].s = 0;
+      let card = this.data.card.map((e) => {
+        if(e.pid === pid){
+          e.s = 0
+        }
+        return e
+      })
+      let deadCard = this.data.deadCard.map(e => {
+        if(e.pid === pid){
+          e.s = 0
+        }
+        return e
+      })
+      this.setData({pokers: pokers,selectCards: cards,card: card, deadCard: deadCard});
     }
     var player = this.data.players;
     player.splice(-1,1)
-    this.setData({total: this.data.total-2})
-    this.setData({players: player})
+    this.setData({total: this.data.total-2,players: player})
     // this.setData({scrollHeight: this.data.scrollHeight - 200})
   },
   chose: function(e) {
@@ -751,7 +799,7 @@ Page({
           that.setData({pokers: player});
           // 把下面的牌设置为默认值
           that.setData({card: [{'pid':0,'id': 0, 'c': 0,'s':0},{'pid':1,'id': 0, 'c': 1,'s':0},{'pid':2,'id': 0, 'c': 2,'s':0},{'pid':3,'id': 0, 'c': 3,'s':0}]});
-          that.setData({players: [5,7]});
+          that.setData({players: [5,7],rngDesc: {}});
           that.setData({sel: 1, rate: []});
           that.setData({total: 9, choseCard: 0});
         } else if (res.cancel) {
@@ -830,9 +878,9 @@ Page({
           break;
         }
       }
-      that.setData({ selectCards: cards, deadCard: deadCard})
+      that.setData({ selectCards: cards, deadCard: deadCard,isBottom: false})
     }).exec()
-  },  
+  },
   selBox: function( e ) {  
     let curTime = e.timeStamp
     let lastTime = this.data.lastTapDiffTime
@@ -842,7 +890,6 @@ Page({
         // console.log(e.timeStamp + '双击')
         this.clear()
       } else {
-        // console.log(e.timeStamp + '单击')
         var data = e.currentTarget.dataset;
         this.setData({sel: data.lid})
       }
