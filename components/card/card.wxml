@@ -1,12 +1,14 @@
 <template name="card">
 	<view bindtap="selBox" data-pid="{{selectCards['card'+item] ? selectCards['card'+item].pid : ''}}" data-id="card{{item}}" data-lid="{{item}}"   
-	id="card-{{item}}"	class="flex-item {{selectCards['card'+item] ? 'car' : ''}}  {{sel === item ? 'selected' : ''}}">
+	id="card-{{item}}"	class="flex-item {{isPlayer ? 'play' : ''}} {{selectCards['card'+item] ? 'car' : ''}}  {{sel === item ? 'selected' : ''}}">
        <block wx:if="{{selectCards['card'+item]}}">
-        <image class="cardImg" src='{{"/images/" + selectCards["card"+item].id + "_" + selectCards["card"+item].c + ".png"  }}'></image>
-       <image class="cardImg"  src='{{"/images/" + selectCards["card"+item].c + ".png"  }}'></image>
+        <view class="carPlay">
+        <image class="cardImg letter" src='{{"/images/" + selectCards["card"+item].id + "_" + selectCards["card"+item].c + ".png"  }}'></image>
+        <image class="cardImg cShape"  src='{{"/images/" + selectCards["card"+item].c + ".png"  }}'></image>
+        </view>
         </block>
         <block wx:else>
-        	<view class="unknown">?</view>
+        	<view class="unknown"><span>?</span></view>
         </block>
     </view>
 </template>

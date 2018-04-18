@@ -1,6 +1,6 @@
 <view class="main" style="height:{{height}}px">
   <view class=" title">
-      <span>手牌范围：P{{player}}</span>
+      <span style="font-size:1.2em">手牌范围：P{{player}}</span>
       <view bindtap="reset">重置</view>
   </view>
   <view class="desc">
@@ -14,7 +14,7 @@
     </view>
   </view>
   <view class="slider">
-    <slider bindchanging="change" color="#313A4D" step="0.59" value="{{val}}"  show-value/>
+    <slider next-margin="10px" bindchanging="change" color="#313A4D" step="0.5" value="{{val}}"  show-value/>
     <span>%</span>
   </view>
   <view class="arrow">

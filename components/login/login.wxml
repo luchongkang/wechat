@@ -1,7 +1,7 @@
 <template name="login">
   <view class="register {{ setp[0] === 2 ? '' : 'none'}}">
     <view class="reg-top">
-      <i bindtap="back"></i>
+      <i class="back-arrow" bindtap="back"></i>
       <view>登录</view>
       <view bindtap="debao">注册</view>
     </view>

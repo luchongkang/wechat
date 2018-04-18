@@ -2,15 +2,16 @@
   <view class="dead {{ setp[0] === 4 ? '' : 'none'}}">
     <view class="deadmsg" >
       <view class="flex" style="background-color: rgba(24, 32, 41, 0.35);position:relative;">
-        <view>已选的死牌：</view>
+        <view style="color:#fff;font-size:1.2em">已选的死牌：</view>
         <view bindtap="resetDead" style="position:absolute;right:0">重置</view>
       </view>
       
-      <span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span>
+      <!-- <span wx:for="{{selDead}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span> -->
+      <span wx:for="{{selDeadTemp}}" wx:key="index">{{cards[item['id']]}}{{shap[item['c']]}} </span>
     </view>
     <view style="position:fixed;bottom:0;">
       <view class="flex DeadCard" >
-      <span class="deadDesc">死牌(Dead Cards)</span>
+      <span class="deadDesc"><span style="color:#fff;font-size:1.3em">死牌</span>(Dead Cards)</span>
       <view wx:for="{{deadCard}}" wx:key="index" bindtap="selDeadCard" data-lid="{{item}}"  class="flex-item child car {{item.s === 1 || item.s === 3 ? 'yellow' : ''}}">
        <view style="margin:0;" class="shade {{item.s === 2 ? 'disable' : ''}}"></view>
         <image class="cardImg fill" src='{{"/images/" + item.id + "_" + item.c + ".png"  }}'></image>

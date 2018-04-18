@@ -192,7 +192,8 @@ var pageData = {
     }
     let p = Math.ceil((sel - 5)/2)
     if(data.sel >23){
-      p++
+      p = data.sel - 23
+      // p++
     }
     let pp = 'P'+(p-1);
     if(data.rngDesc.hasOwnProperty(pp)){

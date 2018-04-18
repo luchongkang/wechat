@@ -88,19 +88,21 @@
   position: relative;
   margin: 0 5px;
   color: #818899;
+  left: 31px;
 }
 .arrow-up {
     margin-left: 110px;
+    left: 32px;
 }
 .arrow-up::before,.arrow-right::before,.arrow-down::before,.arrow-left::before{
   font-family: "fa" !important;
   position: absolute;
-  left: 28px;
   top: 10px;
   font-size: 1.5em;
 }
 .arrow-up::before {
   content: "\f176";
+  left: 31px;
 }
 .delete,.add {
   color: #7A95CB;
@@ -118,23 +120,27 @@
 }
 .arrow-left::before{
   content: "\f177";
+  left: 20px;
 }
 .arrow-down::before{
   content: "\f175";
+  left: 31px !important;
 }
 .arrow-right::before{
   content: "\f178";
+  left: 20px;
 }
 .bottom{
   display: flex;
   flex-wrap: wrap;
-  position: relative;
-  bottom: 0;
+  position: fixed;
+  bottom: 0;right: 0;left: 0;
 }
 .bottom view{
-  padding:.6em 0;
+  padding:.5em 0;
   width:50%;
   text-align:center;
+  font-size:1.4em;
 }
 .bottom view:nth-child(1){
   background: #313A4D;

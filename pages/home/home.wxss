@@ -22,7 +22,7 @@ page {
     width:250px;
 }
 .en{
-  margin-left:25px;
+  margin-left:0px;
 }
 .number, .icon {
   position: absolute;
@@ -49,13 +49,13 @@ page {
     position: relative;
     width:40px;
     height:60px;
-    margin:10px 5px;
-    border: 2px solid #202735;
+    margin:9px 5px;
+    border: 2px solid rgba(0,0,0,0);
     background: #202735;
-    border-radius: 10%;
+    border-radius: 13%;
 }
 .car {
-  background: #FFF;
+  /* background: #FFF; */
   
 }
 .red {
@@ -86,11 +86,23 @@ page {
   background: white;
   background-color:#0F131A;
 }
+.carPlay{
+  position: absolute;
+  top: 2px;bottom: 2px;left: 2px;right: 2px;
+  background:#FFF;
+border-radius:7%;
+
+}
 .player view:nth-child(1) {
-  padding: 25px 0 0 1.8em;
+  /* padding: 25px 0 0 1.8em; */
+}
+.play {
+  border-color:#0F131A;
 }
 .count {
-  padding-left: 40px
+  padding-left: 40px;
+  text-align: center;
+  padding-top: 6px; 
 }
 .count p{
   display: block;
@@ -115,8 +127,8 @@ page {
 .btn {
     width: 33%;
     margin-top: 10px;
-    margin:5px 20px;
-    padding:5px;
+    margin:5px 10px;
+    padding:5px 10px;
     border:2px solid #777b8c;
     font-size:14px;
     text-align: center;
@@ -149,14 +161,14 @@ page {
   }
 }
 @media only screen and (min-width: 411px) {
-  .card view:first-child {
-    margin-left:0px;
-  }
+  /* .card view:first-child {
+    margin-left:3px;
+  } */
   .car{
     width:45px;
   }
   .num {
-    padding:0 0 10px 40px;
+    padding:0 0 10px 20px;
   }
   .flex-item {
     width:45px;
@@ -170,12 +182,11 @@ page {
 }
 .poker {
     border: 1px solid #202735;
-    width:45px;
+    width:46px;
     height:26px;
     text-align:center;
     background-color:#0f131a;
     font-size:18px;
-    padding-top:3px;
 }
 
 .bottom {
@@ -186,8 +197,8 @@ page {
 .reset {
     background: #3b3e56;
     color: #949db3;
-    padding:5px 0;
-    margin-top:5px;
+    padding:10px 0;
+    margin-top:2px;
     font-size:16px;
     width: 40%;
     text-align: center;
@@ -205,7 +216,7 @@ page {
     left:3px;
 }
 .selected{
-  border-color: #00ffcc;
+  border:2px solid #00ffcc;
   /* box-shadow:0 0 18px rgba(29, 181, 113, 1); */
 }
 .hide span{
@@ -229,37 +240,42 @@ page {
   z-index: 100;
 }
 .lose {
-  font-size: 16px;
+  color: #18f200;
+  font-size: 18px;
 }
 .win {
-  color: red;
+  color: #ffd900;
   font-size: 14px;
 }
 .tie {
-   color: #a6e22e;
-   font-size: 12px;
+   color: #4fc5ff;
+   font-size: 14px;
 }
-.count p {
-  margin-top:5px;
-}
+
 .unknown {
     font-size: 22px;
     color: #B8B8B8;
-    /* padding: 15px 10px 10px 12px !important; */
-    padding:30% 50% 33% 30% !important;
     border-radius: 7%;
-    margin: 2px;
-    margin-bottom: -1px; 
     background:#FFF;
+    position:absolute;
+    left:2px;
+    right:2px;
+    bottom:2px;
+    top:2px;
+    text-align:center;
+}
+.unknown span {
+  position:relative;
+  top:13px;
 }
 .login::before {
-  content: "\f007";
-  box-sizing: border-box;
+  /* content: "\f007";
+  box-sizing: border-box; */
 }
 .login {
   position: absolute;
   color: #8890a3;
-  margin: 5px 30px 5px 10px;
+  margin: 8px 30px 5px 10px;
 }
 .forever {
   margin:8px auto;
@@ -283,8 +299,8 @@ page {
   width: 100%;
   text-align: center;
   background: #14c9a8;
-  padding: 5px 0;
-  margin-top: 5px;
+  padding: 10px 0;
+  margin-top: 2px;
   font-size:16px;
 }
 .modal {
@@ -304,7 +320,7 @@ page {
   margin: 0 20px;
   color: #000;
   border-radius: 20px;
-  height: 68%;
+  height: 48%;
   margin-top:60px;
 }
 .tip view:nth-child(1){
@@ -519,7 +535,7 @@ page {
 .send {
   height:35px;
   width: 92px;
-  background: #757580;
+  background: #87a5e0;
   color:#FFF;
   text-align: center;
   padding-top:7px;
@@ -545,27 +561,27 @@ page {
   position: relative;
   background:#202735;
 }
-.die view{
+.die view:first-child{
   padding:1px 3px;
   margin-left: 20px;
   font-size: 16px;
   color: #696974;
   height:40px;
-  margin-right:75px;
   width:100%;
   background:#0f131a;
 }
 
 .dieSpan{
-  position:absolute;
-  right:20px;
-  font-weight: 900;
-  font-size: 1.5em;
-  color: #8c92a5;
-  padding:1px 20px;
-  background:#393c5a;
+  position:relative;
+  font-weight:900;
+  font-size:1.45em;
+  color:#8c92a5;
 }
-.dead {
+.plusDie{
+  background:#393c5a;
+  position:relative;
+  margin-right:20px;
+  padding:0 30px;
 }
 .deadmsg{
   background-color: rgba(24, 32, 41, 0.35);
@@ -573,7 +589,7 @@ page {
   color: #35C9AE;
 }
 .deadDesc {
-  padding: 10px;width: 44%;text-align: center;
+  padding:5px 10px 0;width: 44%;text-align: center;
 }
 .DeadCard {
   flex-wrap: wrap;
@@ -586,6 +602,7 @@ page {
 }
 .DeadCard view{
   margin:1px;
+  border-color:#0F131A;
 }
 .yellow {
   background: yellow;
@@ -606,19 +623,27 @@ page {
   }
 }
 .rng {
-  width:80px;
-  margin:15px 5px 0 8px;
+  position: absolute;
+  left: 2px;top: 2px;right: 2px;bottom: 2px;
   border-radius:4px;
   font-size:14px;
   background:#FFF;
-  color:#B8B8B8;
-  padding:12px 0px 12px 10px;
-  border:2px solid #202735;
-  height: 20px;
+  color:#333;
+  padding-top:16px;
 }
 .selrng {
-  border:2px solid #00ffcc;
+  border:2px solid #00ffcc !important;
   border-radius:4px;
+}
+.carPlayRng {
+  position:relative;
+  width:92px;
+  height:60px;
+  margin:9px 5px;
+  border:2px solid #0F131A;
+  background:#202735;
+  border-radius:8px;
+  text-align: center;
 }
 .disable {
   background-color: rgba(0, 0, 0, 0.65) !important;
@@ -639,7 +664,7 @@ page {
 }
 .cardImg{
   display:block;
-  width: 50rpx;height: 48rpx;
+  width: 46rpx;height: 44rpx;
   margin:8rpx auto;
 }
 .fill {
@@ -679,6 +704,8 @@ page {
 } */
 .user {
   font-size: 16px;
+  text-align:center;
+  margin: 25px 14px 0 13px;
 }
 .adImg {
   width: 100%;
@@ -691,7 +718,8 @@ page {
   color:#000;
   border-radius:20px;
   height:72%;
-  margin-top:60px;
+  /* top:50%;
+  transform:translateY(-50%); */
 }
 .down-btn {
   font-size:14px;
@@ -712,8 +740,9 @@ page {
 .close-img {
   width: 17px;height: 17px;
   position: absolute;
-  right: 15px;
-  top: 10px;
+  right:5px;
+  top:-1px;
+  padding:10px;
 }
 .help-img {
   position: absolute;
@@ -729,10 +758,11 @@ page {
 }
 .shade {
   position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  top:-2px;
+  left:-2px;
+  right:-2px;
+  bottom:-2px;
+  border-radius: 13%;
 }
 .screen {
   position: fixed;
@@ -740,14 +770,18 @@ page {
   background: #212029;
   text-align: center;
   font-size: 18px;
-  padding: 10px 0;
+  padding: 5px 0 10px;
 }
 .middle {
   position: fixed;
   right: 0;left: 0;
-  bottom:45px;
-  top:84px;
-  background-color:#0F131A;
+  bottom:65px;
+  top:80px;
+  background:#000 url('https://cache.debao.com/style/images/logo2.png') no-repeat;
+  background-size:300px;
+background-attachment:fixed;
+background-position:center;
+
 }
 .heng {
   width:40rpx;
@@ -760,8 +794,8 @@ page {
   margin:5px 5px 0;
 }
 .border_dashed{
-    border-left:3rpx dashed #8890a3;
-    margin:16px 0;
+    border-left:3rpx dashed #323444;
+    margin:16px 8px;
 }
 .player-img{
   width: 22rpx;
@@ -769,10 +803,32 @@ page {
   margin: 0 2px;
 }
 @media only screen and (min-width: 414px) { 
-  .unknown {
-    padding:30% 50% 28% 30% !important;
+  .poker {
+    width:51.5px;
   }
-  .rng {
-    margin:15px 15px 0 8px;
+  .user {
+    margin: 25px 5px 0 20px;
   }
+}
+.back-arrow{
+  padding:15px 10px;
+left:-5px;
+top:1px;
+position:absolute;
+width:20px;
+padding-left:10px;
+
+}
+.btn-bottom{
+  padding: 0 10px;
+}
+.letter {
+  width:30px;
+  height:28px;
+  margin-top:5rpx;
+}
+.cShape{
+  width:26px;
+  height:24px;
+  margin:-5rpx auto;
 }

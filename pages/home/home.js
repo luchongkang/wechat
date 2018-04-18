@@ -75,6 +75,7 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     selDead: [],
+    selDeadTemp:[],
     deadDes:'',
     signkey:'003CW13v1JI94d0sFL3v1kYL2v1CW133',
     isLogin: false,
@@ -98,7 +99,9 @@ Page({
     hHeight: 667,
     isHelp: 'none',
     headUrl: '/static/images/sysimage/avatar.png',
-    isBottom: false
+    isBottom: false,
+    hTop: '15%',
+    isPlayer: true
   },
   paying(){
     var openID = wx.getStorageSync('openID')
@@ -190,7 +193,7 @@ Page({
         if(selectCards.hasOwnProperty(str)){
           wx.showModal({
             title: '错误',
-            content: '请清除当前手牌'
+            content: '请清除当前两张手牌后再选择范围'
           })
           return false 
         }
@@ -203,7 +206,7 @@ Page({
         if(selectCards.hasOwnProperty(str)){
           wx.showModal({
             title: '错误',
-            content: '请清除当前手牌'
+            content: '请清除当前两张手牌后再选择范围'
           })
           return false 
         }
@@ -362,7 +365,7 @@ Page({
       e.d = 0
       return e
     })
-    this.setData({selDead: [], deadCard: dead, pokers: pokers, card: card})
+    this.setData({selDead: [], deadCard: dead, pokers: pokers, card: card, selDeadTemp: [], deadDes: ''})
   },
   okDead() {
     let temp = []
@@ -400,16 +403,23 @@ Page({
       return e
     })
     
-    this.setData({using: true,pokers :poker, deadCard: dead, card: card, selDead: sel, deadDes: desc})
+    this.setData({using: true,pokers :poker, deadCard: dead, card: card, selDead: sel, deadDes: desc, selDeadTemp: []})
   },
   cancelDead(){
+    let temp = []
+    this.data.selDead.map( e => {
+      temp.push(e.pid)
+    })
     let dead = this.data.deadCard.map( e =>{
-      if(e.s === 3){
+      if(e.s === 3 && !temp.includes(e.pid)){
         e.s = 0
+      }
+      if(temp.includes(e.pid)){
+        e.s = 1
       }
       return e
     })
-    this.setData({using: true, deadCard: dead,})
+    this.setData({using: true, deadCard: dead, selDeadTemp: []})
   },
   selDeadCard(e) {
     let selectCards = this.data.selectCards.selectCards
@@ -431,21 +441,21 @@ Page({
     let dead = this.data.deadCard
     if( temp.s === 3 || temp.s === 1){
       dead[temp.pid].s = 0
-      // let arr = this.data.selDead.filter(function(e) {
-      //   return e.pid !== temp.pid
-      // })
-      this.setData({deadCard: dead})
+      let arr = this.data.selDeadTemp.filter(function(e) {
+        return e.pid !== temp.pid
+      })
+      this.setData({deadCard: dead, selDeadTemp: arr})
       return false
     }
     dead[temp.pid].s = 3 // 3 以选中 1 已经选择  
     this.setData({deadCard: dead})
     // temp.s = 3
-    // let arr = this.data.selDead
-    // arr.push(temp)
-    // this.setData({selDead: arr})
+    let arr = this.data.selDeadTemp
+    arr.push(temp)
+    this.setData({selDeadTemp: arr})
   },
   showDead() {
-    this.setData({setp: [4, 0], using: false})
+    this.setData({setp: [4, 0], using: false, selDeadTemp: this.data.selDead})
   },
   send: function() {
     if(!this.data.isSend){
@@ -764,10 +774,26 @@ Page({
           delete selectCards[key]
         }
       }
-      let dead = deadCard.filter((obj)=>{
-        return !temp.includes(obj.id)
+      let cards = this.data.cards
+      let shap = this.data.shap
+      let desc = ''
+      let i = 0
+      let sel = []
+      let dead = deadCard.filter((e)=>{
+        if(!temp.includes(e.id)){
+          if(e.s === 1){
+            sel.push(e)
+            if(i === 15){
+              desc += '...'
+            }else if(i < 15) {
+              desc += cards[e.id] + shap[e.c] + ' '
+            }
+            i++
+          }
+          return e
+        }
       })
-      this.setData({cards :['A','K','Q','J','10','9','8','7','6'], deadCard: dead})
+      this.setData({cards :['A','K','Q','J','10','9','8','7','6'], selDead: sel, deadCard: dead, deadDes: desc})
     }
     let choseCard = 0
     let card = []
@@ -801,7 +827,8 @@ Page({
           that.setData({card: [{'pid':0,'id': 0, 'c': 0,'s':0},{'pid':1,'id': 0, 'c': 1,'s':0},{'pid':2,'id': 0, 'c': 2,'s':0},{'pid':3,'id': 0, 'c': 3,'s':0}]});
           that.setData({players: [5,7],rngDesc: {}});
           that.setData({sel: 1, rate: []});
-          that.setData({total: 9, choseCard: 0});
+          that.setData({total: 9, choseCard: 0, isBottom: false});
+          that.resetDead();
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
@@ -979,9 +1006,10 @@ Page({
   },
   onLoad: function() {
     var res = wx.getSystemInfoSync()
-    var sHight = res.screenHeight - 504
+    var sHight = res.screenHeight - 514
+    var hTop = (res.windowHeight - 434)/2 + 'px'
     let userInfo = wx.getStorageSync('userInfo')
-    this.setData({ sHight: sHight})
+    this.setData({ sHight: sHight, hTop: hTop})
     if (userInfo) {
       let url = wx.getStorageSync('headUrl')
       this.setData({isLogin :true, nickName :userInfo, status: 1,using :true, headUrl:url})
